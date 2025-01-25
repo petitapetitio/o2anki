@@ -6,5 +6,6 @@ from typing import Optional
 class ParsedNote:
     question: str
     answer: str
-    note_id: Optional[int] = None
-    target_deck: Optional[str] = None
+    note_id: Optional[int]
+    target_deck: Optional[str]
+    file_tags: tuple[str]
