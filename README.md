@@ -12,4 +12,7 @@ python -m pip install -r requirements.txt
 # TODO 
 
 - parser les cartes
+  - récupérer le nom du deck
+  - récupérer les tags
+  - parser un dossier de façon récursive
 - enregistrer les cartes

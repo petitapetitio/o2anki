@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterator
 
 from o2anki.parsing.parsed_note import ParsedNote
+from o2anki.parsing.skipped_note import SkippedNote
 
 
 @dataclass(frozen=True)
@@ -13,9 +15,14 @@ class File:
         with open(filepath) as f:
             return File(f.read())
 
-    def notes(self) -> list[ParsedNote]:
+    def notes(self) -> Iterator[ParsedNote | SkippedNote]:
         for split in self._content.split("\nQ : ")[1:]:
-            q, rsplit = split.split("\nR : ")
+            try:
+                q, rsplit = split.split("\nA : ")
+            except ValueError as e:
+                yield SkippedNote(f"La question `{split.strip()}` est sans réponse.")
+                continue
+
             id_split = rsplit.split("<!-- ID : ")
             if len(id_split) == 1:
                 note_id = None

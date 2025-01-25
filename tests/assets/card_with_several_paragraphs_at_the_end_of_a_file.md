@@ -1,6 +1,6 @@
 
 Q : question ? 
-R : 
+A : 
 paragraphe 1
 paragraphe 1
 paragraphe 1

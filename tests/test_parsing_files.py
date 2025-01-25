@@ -2,6 +2,7 @@ from pathlib import Path
 
 from o2anki.parsing.file import File
 from o2anki.parsing.parsed_note import ParsedNote
+from o2anki.parsing.skipped_note import SkippedNote
 
 
 def file_notes(file):
@@ -10,6 +11,10 @@ def file_notes(file):
 
 def test_empty_file():
     assert file_notes("assets/file_without_card.md") == []
+
+
+def test_question_sans_reponse():
+    assert file_notes("assets/question_sans_reponse.md") == [SkippedNote("La question `question ?` est sans réponse.")]
 
 
 def test_file_without_card():
