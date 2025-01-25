@@ -9,21 +9,31 @@ class AnkiConnectClient:
         self._version = 6
 
     def invoke_requests(self, requests: list[dict]) -> list:
-        multi_response = self.invoke({"action": "multi", "version": self._version, "params": {"actions": requests}})
+        multi_response = self.invoke(
+            {
+                "action": "multi",
+                "version": self._version,
+                "params": {"actions": requests},
+            }
+        )
         exceptions = []
         results = []
         for request, response in zip(requests, multi_response):
             match response:
-                case {"error": 'cannot create note because it is a duplicate'}:
-                    print(f'La question `{request["params"]["note"]["fields"]["Front"]}` est dupliquée')
+                case {"error": "cannot create note because it is a duplicate"}:
+                    print(
+                        f'La question `{request["params"]["note"]["fields"]["Front"]}` est dupliquée'
+                    )
                     results.append(None)
                 case {"error": str(reason)}:
                     exceptions.append(Exception(response["error"]))
                 case {"error": None}:
-                    results.append(response['result'])
+                    results.append(response["result"])
 
         if len(exceptions) > 0:
-            raise ExceptionGroup("Une erreur est survenue durant invoke_requests:", exceptions)
+            raise ExceptionGroup(
+                "Une erreur est survenue durant invoke_requests:", exceptions
+            )
 
         return results
 
@@ -43,7 +53,11 @@ class AnkiConnectClient:
 
     def create_deck(self, name):
         # see https://foosoft.net/projects/anki-connect/#createdeck
-        return {"action": "createDeck", "version": self._version, "params": {"deck": name}}
+        return {
+            "action": "createDeck",
+            "version": self._version,
+            "params": {"deck": name},
+        }
 
     def add_basic_note_request(self, note: ParsedNote) -> dict:
         # see https://foosoft.net/projects/anki-connect/#addnote
@@ -54,10 +68,7 @@ class AnkiConnectClient:
                 "note": {
                     "deckName": note.target_deck or "Default",
                     "modelName": "Basic",
-                    "fields": {
-                        "Front": note.question,
-                        "Back": note.answer
-                    },
+                    "fields": {"Front": note.question, "Back": note.answer},
                     "options": {
                         "allowDuplicate": False,
                         "duplicateScope": "deck",
@@ -72,11 +83,5 @@ class AnkiConnectClient:
                     #     ]
                     # }]
                 }
-            }
+            },
         }
-
-
-cli = AnkiConnectClient()
-cli.invoke(cli.create_deck("test1"))
-result = cli.invoke(cli.get_deck_names())
-print("got list of decks: {}".format(result))

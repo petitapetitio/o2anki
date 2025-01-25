@@ -1,3 +1,3 @@
 
-Q : question 2 ? 
+Q : question 2 ?
 A : answer 2

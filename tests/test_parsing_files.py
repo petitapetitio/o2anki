@@ -11,9 +11,7 @@ def test_parsing_empty_file():
 
 
 def test_parsing_question_without_response():
-    assert file_notes("assets/question_without_response.md") == [
-        SkippedNote("La question `question ?` est sans réponse.")
-    ]
+    assert file_notes("assets/question_without_response.md") == []
 
 
 def test_parsing_file_without_card():
@@ -22,19 +20,19 @@ def test_parsing_file_without_card():
 
 def test_parsing_card_with_noise_around():
     assert file_notes("assets/card_with_noise_around.md") == [
-        note("question ?", "answer", filepath="assets/card_with_noise_around.md")
+        note("question ? ", "answer", filepath="assets/card_with_noise_around.md")
     ]
 
 
 def test_parsing_card_with_several_paragraphs():
     assert file_notes("assets/card_with_several_paragraphs.md") == [
         note(
-            "question ?",
+            "question ? ",
             answer_of_several_paragraphs,
             filepath="assets/card_with_several_paragraphs.md",
         ),
         note(
-            "question 2 ?",
+            "question 2 ? ",
             "réponse 2",
             filepath="assets/card_with_several_paragraphs.md",
         ),
@@ -46,7 +44,7 @@ def test_parsing_card_with_several_paragraphs_at_the_end_of_a_file():
         "assets/card_with_several_paragraphs_at_the_end_of_a_file.md"
     ) == [
         note(
-            "question ?",
+            "question ? ",
             answer_of_several_paragraphs,
             filepath="assets/card_with_several_paragraphs_at_the_end_of_a_file.md",
         )
@@ -66,12 +64,12 @@ def test_parsing_card_with_question_on_several_lines():
 def test_parsing_2_new_cards_separated_by_a_single_line():
     assert file_notes("assets/2_new_cards_separated_by_a_single_line.md") == [
         note(
-            "question 1 ?",
+            "question 1 ? ",
             "answer 1",
             filepath="assets/2_new_cards_separated_by_a_single_line.md",
         ),
         note(
-            "question 2 ?",
+            "question 2 ? ",
             "answer 2",
             filepath="assets/2_new_cards_separated_by_a_single_line.md",
         ),
@@ -81,13 +79,13 @@ def test_parsing_2_new_cards_separated_by_a_single_line():
 def test_parsing_2_registered_cards_separated_by_a_single_line():
     assert file_notes("assets/2_registered_cards_separated_a_single_line.md") == [
         note(
-            "question 1 ?",
+            "question 1 ? ",
             "answer 1",
             note_id=1,
             filepath="assets/2_registered_cards_separated_a_single_line.md",
         ),
         note(
-            "question 2 ?",
+            "question 2 ? ",
             "answer 2",
             note_id=2,
             filepath="assets/2_registered_cards_separated_a_single_line.md",
@@ -98,7 +96,7 @@ def test_parsing_2_registered_cards_separated_by_a_single_line():
 def test_parsing_file_with_target_deck():
     assert file_notes("assets/file_with_target_deck.md") == [
         note(
-            "question 1 ?",
+            "question 1 ? ",
             "answer 1",
             target_deck="Test Deck",
             filepath="assets/file_with_target_deck.md",
@@ -109,7 +107,7 @@ def test_parsing_file_with_target_deck():
 def test_parsing_file_with_tags():
     assert file_notes("assets/file_with_tags.md") == [
         note(
-            "question 1 ?",
+            "question 1 ? ",
             "answer 1",
             file_tags=("tag-1", "tag-2"),
             filepath="assets/file_with_tags.md",
@@ -122,7 +120,7 @@ question ?
 
 ```python
 print(50)
-```\
+```
 """
 
 

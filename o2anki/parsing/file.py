@@ -2,6 +2,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator, ClassVar
+import markdown
 
 from o2anki.parsing.parsed_note import ParsedNote
 from o2anki.parsing.skipped_note import SkippedNote
@@ -26,7 +27,7 @@ class File:
 
         for split in content.split("\nQ : ")[1:]:
             try:
-                q, rsplit = split.split("\nA : ")
+                q, rsplit = split.split("\nA : ")[:2]
             except ValueError as e:
                 print(f"La question `{split.strip()}` est sans réponse.")
                 continue

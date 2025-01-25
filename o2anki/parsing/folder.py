@@ -9,11 +9,11 @@ from o2anki.parsing.skipped_note import SkippedNote
 
 @dataclass(frozen=True)
 class Folder:
-    notes: list[ParsedNote | SkippedNote]
+    _notes: list[ParsedNote]
     decks: set[str]
 
     def unregistered_notes(self) -> Iterator[ParsedNote]:
-        return filter(lambda n: isinstance(n, ParsedNote) and n.note_id is None, self.notes)
+        return filter(lambda n: n.note_id is None, self._notes)
 
     @classmethod
     def of(cls, path: Path, excluded_paths: tuple[Path] = ()) -> "Folder":
