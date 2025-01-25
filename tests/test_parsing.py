@@ -1,4 +1,3 @@
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -8,7 +7,7 @@ from typing import Optional
 class ParsedNote:
     question: str
     answer: str
-    identifier: Optional[int] = None
+    note_id: Optional[int] = None
 
 
 @dataclass(frozen=True)
@@ -23,8 +22,18 @@ class File:
     def notes(self) -> list[ParsedNote]:
         for split in self._content.split("\nQ : ")[1:]:
             q, rsplit = split.split("\nR : ")
-            r = rsplit.split("\n\n\n")[0]
-            yield ParsedNote(question=q.strip(), answer=r.strip())
+            id_split = rsplit.split("<!-- ID : ")
+            if len(id_split) == 1:
+                note_id = None
+                r = rsplit.split("\n\n\n")[0]
+            elif len(id_split) == 2:
+                r, i = id_split
+                note_id = int(i.split("-->")[0].strip())
+            else:
+                raise ValueError(f"Erreur lors du parsing de {split}")
+            # r = rsplit.split("\n\n\n")[0]
+
+            yield ParsedNote(question=q.strip(), answer=r.strip(), note_id=note_id)
 
 
 def file_notes(file):
@@ -41,7 +50,7 @@ def test_file_without_card():
 
 def test_card_with_noise_around():
     assert file_notes("assets/card_with_noise_around.md") == [
-        ParsedNote("question ?", "3.7")
+        ParsedNote("question ?", "answer")
     ]
 
 
@@ -64,6 +73,35 @@ def test_card_with_several_paragraphs():
 
 
 def test_card_with_several_paragraphs_at_the_end_of_a_file():
-    assert file_notes("assets/card_with_several_paragraphs_at_the_end_of_a_file.md") == [
-        ParsedNote("question ?", answer_of_several_paragraphs)
+    assert file_notes(
+        "assets/card_with_several_paragraphs_at_the_end_of_a_file.md"
+    ) == [ParsedNote("question ?", answer_of_several_paragraphs)]
+
+
+def test_card_with_question_on_several_lines():
+    assert file_notes("assets/card_with_question_on_several_lines.md") == [
+        ParsedNote(question_of_several_lines, answer_of_several_paragraphs)
+    ]
+
+
+question_of_several_lines = """\
+question ? 
+
+```python
+print(50)
+```\
+"""
+
+
+def test_2_new_cards_separated_by_a_single_line():
+    assert file_notes("assets/2_new_cards_separated_by_a_single_line.md") == [
+        ParsedNote("question 1 ?", "answer 1"),
+        ParsedNote("question 2 ?", "answer 2"),
+    ]
+
+
+def test_2_registered_cards_separated_by_a_single_line():
+    assert file_notes("assets/2_registered_cards_separated_a_single_line.md") == [
+        ParsedNote("question 1 ?", "answer 1", 1),
+        ParsedNote("question 2 ?", "answer 2", 2),
     ]

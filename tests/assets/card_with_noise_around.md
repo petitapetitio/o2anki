@@ -2,7 +2,7 @@
 cezoih Q : 
 
 Q : question ? 
-R : 3.7 
+R : answer 
 
 
 - Q [Basic] Dans quelle version de Python ont été introduites les dataclasses ? Back:  3.7 <!--ID: 1730827063904--> ENDI

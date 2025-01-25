@@ -1,7 +1,8 @@
 
-Q : dans quelle version de Python ont été introduites les dataclasses ? 
-R : 3.7 
-<!-- ID : -->
+Q : question 1 ? 
+R : answer 1
+<!-- ID : 1 -->
 
-Q : dans quelle version de Python ont été introduites les dataclasses ? 
-R : 3.7 
+Q : question 2 ? 
+R : answer 2
+<!-- ID : 2 -->
