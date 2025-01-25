@@ -22,8 +22,33 @@ Target deck
 
 # TODO 
 
-- [ ] parser les cartes
-  - [ ] récupérer le nom du deck
-  - [ ] récupérer les tags
+- [x] parser les cartes
+  - [x] récupérer le nom du deck
+  - [x] récupérer les tags
   - [x] parser un dossier de façon récursive
-- [ ] enregistrer les cartes
+- [ ] interragir avec anki
+  - [ ] màj une carté déjà existante
+  - [ ] créer une nlle carte
+    - commande "addNotes"
+    - ajouter plusieurs notes en mode multi
+    - ajouter une note qui contient une image
+    - écrire l'id
+    - créer les requests puis invoquer
+  - [ ] instruction delete
+- [ ] màj mes cartes ANKI Python
+
+
+
+Ajouter une nlle carte 
+
+get_add_notes
+get_delete_notes
+
+
+```
+if parsed.id is None:
+  # Need to make sure global_tags get added.
+  parsed.note["tags"] += self.global_tags.split(TAG_SEP)
+  self.inline_notes_to_add.append(parsed.note)
+  self.inline_id_indexes.append(position)
+```

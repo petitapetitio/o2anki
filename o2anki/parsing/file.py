@@ -9,31 +9,29 @@ from o2anki.parsing.skipped_note import SkippedNote
 
 @dataclass(frozen=True)
 class File:
-    _content: str
+    _filepath: Path
 
     _target_deck_regex: ClassVar[re.Pattern] = re.compile(r"TARGET DECK: ([\w -_]+)\n")
     _file_tags_regex: ClassVar[re.Pattern] = re.compile(r"FILE TAGS: ([\w -_]+)\n")
 
-    @classmethod
-    def from_path(cls, filepath: Path):
-        with open(filepath) as f:
-            return File(f.read())
-
     def notes(self) -> Iterator[ParsedNote | SkippedNote]:
-        target_deck = self._target_deck_regex.findall(self._content)
+        with open(self._filepath) as f:
+            content = f.read()
+
+        target_deck = self._target_deck_regex.findall(content)
         target_deck = target_deck[0] if len(target_deck) > 0 else None
 
-        file_tags: list[str] = self._file_tags_regex.findall(self._content)
+        file_tags: list[str] = self._file_tags_regex.findall(content)
         file_tags = file_tags[0].split(" ") if len(file_tags) > 0 else []
 
-        for split in self._content.split("\nQ : ")[1:]:
+        for split in content.split("\nQ : ")[1:]:
             try:
                 q, rsplit = split.split("\nA : ")
             except ValueError as e:
-                yield SkippedNote(f"La question `{split.strip()}` est sans réponse.")
+                print(f"La question `{split.strip()}` est sans réponse.")
                 continue
 
-            id_split = rsplit.split("<!-- ID : ")
+            id_split = rsplit.split("<!--ID: ")
             if len(id_split) == 1:
                 note_id = None
                 r = rsplit.split("\n\n\n")[0]
@@ -44,9 +42,10 @@ class File:
                 raise ValueError(f"Erreur lors du parsing de {split}")
 
             yield ParsedNote(
-                question=q.strip(),
+                question=q,
                 answer=r.strip(),
                 note_id=note_id,
                 target_deck=target_deck,
                 file_tags=tuple(file_tags),
+                filepath=self._filepath
             )
