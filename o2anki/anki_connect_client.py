@@ -1,7 +1,6 @@
 import json
 import urllib.request
-
-from o2anki.parsing.parsed_note import ParsedNote
+from typing import Iterable, Optional
 
 
 class AnkiConnectClient:
@@ -59,29 +58,47 @@ class AnkiConnectClient:
             "params": {"deck": name},
         }
 
-    def add_basic_note_request(self, note: ParsedNote) -> dict:
+    def add_media_request(self, filename: str, filepath: str):
+        return {
+            "action": "storeMediaFile",
+            "version": self._version,
+            "params": {"filename": filename, "path": filepath},
+        }
+
+    def add_basic_note_request(self, question: str, answer: str, target_deck: Optional[str], file_tags: Iterable[str]) -> dict:
         # see https://foosoft.net/projects/anki-connect/#addnote
         return {
             "action": "addNote",
             "version": self._version,
             "params": {
                 "note": {
-                    "deckName": note.target_deck or "Default",
+                    "deckName": target_deck or "Default",
                     "modelName": "Basic",
-                    "fields": {"Front": note.question, "Back": note.answer},
+                    "fields": {
+                        "Front": question,
+                        "Back": answer,
+                    },
                     "options": {
                         "allowDuplicate": False,
                         "duplicateScope": "deck",
                     },
-                    "tags": note.file_tags,
-                    # "picture": [{
-                    #     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/A_black_cat_named_Tilly.jpg/220px-A_black_cat_named_Tilly.jpg",
-                    #     "filename": "black_cat.jpg",
-                    #     "skipHash": "8d6e4646dfae812bf39651b59d7429ce",
-                    #     "fields": [
-                    #         "Back"
-                    #     ]
-                    # }]
+                    "tags": list(file_tags),
                 }
             },
+        }
+
+    def update_note_request(self, note_id: int, question: str, answer: str, tags: Iterable[str]) -> dict:
+        return {
+            "action": "updateNote",
+            "version": self._version,
+            "params": {
+                "note": {
+                    "id": note_id,
+                    "fields": {
+                        "Front": question,
+                        "Back": answer,
+                    },
+                    "tags": list(tags)
+                }
+            }
         }

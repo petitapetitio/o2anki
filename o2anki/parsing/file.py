@@ -12,8 +12,9 @@ from o2anki.parsing.skipped_note import SkippedNote
 class File:
     _filepath: Path
 
-    _target_deck_regex: ClassVar[re.Pattern] = re.compile(r"TARGET DECK: ([\w -_]+)\n")
-    _file_tags_regex: ClassVar[re.Pattern] = re.compile(r"FILE TAGS: ([\w -_]+)\n")
+    _target_deck_regex: ClassVar[re.Pattern] = re.compile(r"TARGET DECK: ([\w \-_]+)\n")
+    _file_tags_regex: ClassVar[re.Pattern] = re.compile(r"FILE TAGS: ([\w \-_]+)\n")
+    _images_regex: ClassVar[re.Pattern] = re.compile(r"!\[\[([^\]]+)\]\]")
 
     def notes(self) -> Iterator[ParsedNote | SkippedNote]:
         with open(self._filepath) as f:
@@ -42,11 +43,14 @@ class File:
             else:
                 raise ValueError(f"Erreur lors du parsing de {split}")
 
+            images: list[str] = self._images_regex.findall(q + r)
+
             yield ParsedNote(
                 question=q,
                 answer=r.strip(),
                 note_id=note_id,
                 target_deck=target_deck,
                 file_tags=tuple(file_tags),
-                filepath=self._filepath
+                filepath=self._filepath,
+                images=tuple(images)
             )

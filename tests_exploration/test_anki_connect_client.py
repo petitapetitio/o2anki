@@ -3,7 +3,7 @@ from time import time
 
 from o2anki.anki_connect_client import AnkiConnectClient
 from o2anki.o2anki import O2Anki
-from o2anki.parsing.folder import Folder
+from o2anki.parsing.vault import Vault
 from tests.test_parsing_files import note
 
 
@@ -126,9 +126,7 @@ def test_add_note_with_assets_local_html():
 
 
 def test_add_note_with_assets():
-    client = AnkiConnectClient()
-    folder = Folder.of(Path("assets/a_vault_that_contains_card_with_assets"))
-    # client.invoke(req)
+    O2Anki().export(Path("assets/a_vault_that_contains_card_with_assets"))
 
 
 def test_export_folder():

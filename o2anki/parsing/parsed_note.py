@@ -11,3 +11,4 @@ class ParsedNote:
     target_deck: Optional[str]
     file_tags: tuple[str]
     filepath: Path
+    images: tuple[str]

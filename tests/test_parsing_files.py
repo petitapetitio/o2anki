@@ -148,4 +148,4 @@ def note(
     file_tags: tuple = (),
     filepath: str
 ):
-    return ParsedNote(question, answer, note_id, target_deck, file_tags, Path(filepath))
+    return ParsedNote(question, answer, note_id, target_deck, file_tags, Path(filepath), images=())
