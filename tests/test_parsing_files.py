@@ -78,3 +78,9 @@ def test_2_registered_cards_separated_by_a_single_line():
         ParsedNote("question 1 ?", "answer 1", 1),
         ParsedNote("question 2 ?", "answer 2", 2),
     ]
+
+
+def test_file_with_target_deck():
+    assert file_notes("assets/file_with_target_deck.md") == [
+        ParsedNote("question 1 ?", "answer 1", target_deck="Test Deck")
+    ]
