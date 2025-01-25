@@ -1,0 +1,4 @@
+mypy
+aqt[qt6]
+black
+pytest
