@@ -20,12 +20,15 @@ class Vault:
 
     @classmethod
     def of(cls, folder: Path, excluded_paths: tuple[Path] = ()) -> "Vault":
+        for excluded_path in excluded_paths:
+            if not excluded_path.is_relative_to(folder):
+                raise ValueError(f"Le chemin {excluded_path} n'es pas relatif au vault ({folder}) et sera ignoré")
 
         notes = []
         decks = set()
         media = {}
         for p in folder.glob("**/*.md"):
-            if p.parent in excluded_paths:
+            if _is_relative_to(excluded_paths, p):
                 continue
 
             for note in File(p).notes():
@@ -48,3 +51,10 @@ class Vault:
                     media[image] = absolute_path
 
         return Vault(notes, decks, media)
+
+
+def _is_relative_to(excluded_paths, p) -> bool:
+    for excluded_path in excluded_paths:
+        if p.is_relative_to(excluded_path):
+            return True
+    return False

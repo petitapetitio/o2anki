@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from o2anki.parsing.vault import Vault
 from tests.test_parsing_files import note
 
@@ -11,6 +13,11 @@ def test_parsing_vault():
         note("question 2 ?", "answer 2", filepath="assets/folder/card2.md"),
         note("question 3 ?", "answer 3", filepath="assets/folder/subfolder/card3.md"),
     }
+
+
+def test_passing_unrelated_excluded_folders_raise_an_exception():
+    with pytest.raises(ValueError):
+        Vault.of(Path("assets/folder"), (Path("another/radix"),))
 
 
 def test_parsing_vault_with_assets():
