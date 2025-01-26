@@ -21,7 +21,7 @@ Formatage des notes
 - Une réponse commence par `A : ` (en début de ligne)
 
 Target deck
-- Le target deck peut doit être précisé pour chaque fichier fichier (`TARGET DECK: <deck-name>`)
+- Le target deck peut doit être précisé pour chaque fichier (`TARGET DECK: <deck-name>`)
 - Le target deck peut être déclaré n'import où dans le fichier (y compris à la fin)
 - Un seul target deck peut être déclaré
 
