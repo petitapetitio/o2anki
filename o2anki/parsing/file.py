@@ -20,8 +20,7 @@ class File:
         with open(self._filepath) as f:
             content = f.read()
 
-        target_deck = self._target_deck_regex.findall(content)
-        target_deck = target_deck[0] if len(target_deck) > 0 else None
+        target_deck_found = self._target_deck_regex.findall(content)
 
         file_tags: list[str] = self._file_tags_regex.findall(content)
         file_tags = file_tags[0].split(" ") if len(file_tags) > 0 else []
@@ -32,6 +31,12 @@ class File:
             except ValueError as e:
                 print(f"La question `{split.strip()}` est sans réponse.")
                 continue
+
+            try:
+                target_deck = target_deck_found[0]
+            except IndexError as e:
+                raise RuntimeError(
+                    f"Le fichier `{self._filepath}` ne précise pas pas deck. Ajouter un tag 'TARGET DECK: <target-deck>'") from e
 
             id_split = rsplit.split("<!--ID: ")
             if len(id_split) == 1:

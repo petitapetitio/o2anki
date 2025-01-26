@@ -17,4 +17,5 @@ A : Simplifier l'écriture de classes en générant le code répétitif (et en a
 A :  <br>`__init__` <br>`__repr__` <br>`__eq__` <br>(et `__hash__` lorsque `frozen=True`)
  <!-ID: 1730827063911-->
 
+TARGET DECK: test-deck
 

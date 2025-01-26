@@ -3,7 +3,6 @@ from typing import Optional
 
 from o2anki.parsing.file import File
 from o2anki.parsing.parsed_note import ParsedNote
-from o2anki.parsing.skipped_note import SkippedNote
 
 
 def test_parsing_empty_file():
@@ -144,7 +143,7 @@ def note(
     answer: str,
     *,
     note_id: Optional[int] = None,
-    target_deck: Optional[str] = None,
+    target_deck: str = "test-deck",
     file_tags: tuple = (),
     filepath: str
 ):
