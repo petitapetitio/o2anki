@@ -20,6 +20,7 @@ class O2Anki:
         # create the decks
         for deck_name in folder.decks:
             request = self.client.create_deck(deck_name)
+            print(f"create deck {deck_name} ...")
             self.client.invoke(request)
 
         # add the media files
@@ -58,6 +59,9 @@ class O2Anki:
         # write the ids
         registered_notes = []
         for unregistered_note, note_id in zip(unregistered_notes, create_note_results):
+            if note_id is None:
+                continue
+
             registered_notes.append(
                 RegisteredNote(
                     unregistered_note.question,

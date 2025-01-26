@@ -54,7 +54,7 @@ class File:
 
             yield ParsedNote(
                 question=q,
-                answer=r.strip(),
+                answer=r.rstrip(),
                 note_id=note_id,
                 target_deck=target_deck,
                 file_tags=tuple(file_tags),
