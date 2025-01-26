@@ -1,0 +1,4 @@
+#separator:tab
+#html:true
+#tags column:3
+Comment faire référence à un attribut de classe dans une méthode ?	"Passer par un <a href=""obsidian://open?vault=PCRAG&amp;file=nom%20qualifi%C3%A9"">nom qualifié</a> : <br> <code>C.x</code> | <code>self.x</code> <br> Ex : <br><img src=""attribut de classe-3.png"" alt=""attribut de classe-3.png""> <br>"	classes Obsidian_to_Anki

@@ -1,0 +1,12 @@
+#separator:tab
+#html:true
+#tags column:3
+"<link href=""https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/arta.css"" rel=""stylesheet""><p><code>Derived().a</code> ?</p>
+<pre><code class=""hljs python language-python""><span class=""hljs-keyword"">class</span> <span class=""hljs-title class_"">Base</span>:
+    <span class=""hljs-keyword"">def</span> <span class=""hljs-title function_"">__init__</span>(<span class=""hljs-params"">self</span>):
+        self.a = <span class=""hljs-number"">1</span>
+
+<span class=""hljs-keyword"">class</span> <span class=""hljs-title class_"">Derived</span>(<span class=""hljs-title class_ inherited__"">Base</span>):
+    <span class=""hljs-keyword"">def</span> <span class=""hljs-title function_"">__init__</span>(<span class=""hljs-params"">self</span>):
+        self.b = <span class=""hljs-number"">2</span>
+</code></pre>"	<code>AttributeError: 'Derived' object has no attribute 'a'</code>. La méthode <code>__init__</code> de la classe de base n'est pas appelé de façon automatique.	classes Obsidian_to_Anki
