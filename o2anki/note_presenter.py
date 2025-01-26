@@ -7,11 +7,10 @@ class NotePresenter:
         self.markdown_parser = markdown.Markdown(
             extensions=[
                 "fenced_code",
-                "footnotes",
-                "md_in_html",
-                "tables",
-                "nl2br",
-                "sane_lists",
+                # "md_in_html",
+                # "tables",
+                # "nl2br",
+                # "sane_lists",
             ]
         )
 
