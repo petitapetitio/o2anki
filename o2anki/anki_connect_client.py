@@ -1,6 +1,7 @@
 import json
 import urllib.request
 from typing import Iterable, Optional
+from urllib.error import URLError
 
 
 class AnkiConnectClient:
@@ -47,8 +48,21 @@ class AnkiConnectClient:
             raise Exception(response["error"])
         return response["result"]
 
+    def check_connection(self):
+        try:
+            self.invoke({"action": "version", "version": self._version})
+        except URLError as e:
+            raise RuntimeError("Impossible de se connecter à Anki. Vérifie que l'app est ouverte.") from e
+
     def get_deck_names(self) -> dict:
         return {"action": "deckNames", "version": self._version, "params": {}}
+
+    def add_media_request(self, filename: str, filepath: str):
+        return {
+            "action": "storeMediaFile",
+            "version": self._version,
+            "params": {"filename": filename, "path": filepath},
+        }
 
     def create_deck(self, name):
         # see https://foosoft.net/projects/anki-connect/#createdeck
@@ -56,13 +70,6 @@ class AnkiConnectClient:
             "action": "createDeck",
             "version": self._version,
             "params": {"deck": name},
-        }
-
-    def add_media_request(self, filename: str, filepath: str):
-        return {
-            "action": "storeMediaFile",
-            "version": self._version,
-            "params": {"filename": filename, "path": filepath},
         }
 
     def add_basic_note_request(self, question: str, answer: str, target_deck: Optional[str], file_tags: Iterable[str]) -> dict:

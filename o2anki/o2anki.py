@@ -15,15 +15,18 @@ class O2Anki:
 
         folder = Vault.of(folder)
 
+        self.client.check_connection()
+
         # create the decks
         for deck_name in folder.decks:
             request = self.client.create_deck(deck_name)
             self.client.invoke(request)
 
         # add the media files
+        media_requests = []
         for filename, filepath in folder.media.items():
-            request = self.client.add_media_request(filename, str(filepath))
-            self.client.invoke(request)
+            media_requests.append(self.client.add_media_request(filename, str(filepath)))
+        self.client.invoke_requests(media_requests)
 
         # create the notes
         create_note_requests = []

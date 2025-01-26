@@ -3,13 +3,12 @@ from time import time
 
 from o2anki.anki_connect_client import AnkiConnectClient
 from o2anki.o2anki import O2Anki
-from o2anki.parsing.vault import Vault
-from tests.test_parsing_files import note
 
 
 def test_add_card():
     client = AnkiConnectClient()
-    req = client.add_basic_note_request(note("q1?", "r1", filepath="f.md"))
+    client.invoke(client.create_deck("test-deck"))
+    req = client.add_basic_note_request(question="q1?", answer="r1", target_deck="test-deck", file_tags=tuple())
     note_id = client.invoke(req)
     print(note_id)
 
@@ -123,14 +122,3 @@ def test_add_note_with_assets_local_html():
             },
         }
     )
-
-
-def test_add_note_with_assets():
-    O2Anki().export(Path("assets/a_vault_that_contains_card_with_assets"))
-
-
-def test_export_folder():
-    t = time()
-    # O2Anki().export(Path("assets/client_assets"))
-    O2Anki().export(Path("test_vault"))
-    print(f"Elapsed: {time() - t}")
