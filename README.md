@@ -31,3 +31,8 @@ Target deck
 - [ ] adding `DELETE: ID` tag handling
 - [ ] adding css and code_hilite for code blocs
 
+
+# Resources
+
+- https://github.com/ObsidianToAnki/Obsidian_to_Anki
+- https://foosoft.net/projects/anki-connect/
