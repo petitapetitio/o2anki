@@ -21,6 +21,8 @@ class File:
             content = f.read()
 
         target_deck_found = self._target_deck_regex.findall(content)
+        if len(target_deck_found) > 1:
+            raise RuntimeError(f"Le fichier {self._filepath} contient plusieurs tags 'TARGET DECK: '. Make a choice")
 
         file_tags: list[str] = self._file_tags_regex.findall(content)
         file_tags = file_tags[0].split(" ") if len(file_tags) > 0 else []

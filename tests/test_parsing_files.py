@@ -1,12 +1,19 @@
 from pathlib import Path
 from typing import Optional
 
+import pytest
+
 from o2anki.parsing.file import File
 from o2anki.parsing.parsed_note import ParsedNote
 
 
 def test_parsing_empty_file():
     assert file_notes("assets/file_without_card.md") == []
+
+
+def test_parsing_a_file_with_several_target_decks_raise():
+    with pytest.raises(RuntimeError):
+        file_notes("assets/file_with_several_target_decks.md")
 
 
 def test_parsing_question_without_response():
