@@ -9,6 +9,11 @@ python -m pip install setuptools --upgrade
 python -m pip install -r requirements.txt
 ```
 
+Pour exécuter les tests : 
+```
+pytest
+```
+
 # Spécifications
 
 Formatage des notes
