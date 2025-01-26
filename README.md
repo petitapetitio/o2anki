@@ -1,5 +1,5 @@
 
-# Comment tester
+# Comment installer
 
 ```
 python -m venv ../venvs/o2anki
